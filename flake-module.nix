@@ -91,8 +91,14 @@ in
                     text =
                       ''
                         set -x
+                        HOSTNAME=$(hostname -s)
+                        if [ -z "$HOSTNAME" ]; then
+                          target=$USER
+                        else
+                          target=$HOSTNAME
+                        fi
                         nix run \
-                          .#homeConfigurations."\"''${USER}\"".activationPackage \
+                          .#homeConfigurations."\"''${target}\"".activationPackage \
                           "$@"
                       '';
                   }
